@@ -1,3 +1,24 @@
+/* Custom binding for lines drawing */
+ko.bindingHandlers.connections = {
+  update: function(element, valueAccessor) {
+    var connection = ko.unwrap(valueAccessor());
+
+    // Using jquery.connections to draw lines between divs
+    $('#' + connection.parent.id + ', #' + connection.child.id).connections(
+      // Handle parent hidding
+      connection.parent.collapsed() ? 'remove' : {
+        class: connection.class || 'connection'
+      }
+    );
+  }
+};
+
+/* Dirty lines dynamic repositioning 
+ * (from http://musclesoft.github.io/jquery-connections/) */
+setInterval(function() {
+  $('connection').connections('update');
+}, 100);
+
 ko.applyBindings(new function () {
   var self = this;
 
@@ -5,23 +26,27 @@ ko.applyBindings(new function () {
   self.posts = {
     genDir: {
       name: 'General director',
-      helpers: ['genDirHelper'],
-      underPosts: ['employeeDir', 'ITDir']
+      helpers: ['genDirHelper', 'genDirHelper2'],
+      subPosts: ['employeeDir', 'ITDir']
     },
 
     genDirHelper: {
       name: 'Helper of general director'
     },
 
+    genDirHelper2: {
+      name: 'Second helper of general director'
+    },
+
     employeeDir: {
       name: 'Employee director',
-      underPosts: ['Test1', 'Test2']
+      subPosts: ['Test1', 'Test2']
     },
 
     ITDir: {
       name: 'IT director',
       helpers: ['ITDirHelper'],
-      underPosts: ['Test3']
+      subPosts: ['Test3']
     },
 
     Test1: {
@@ -45,12 +70,13 @@ ko.applyBindings(new function () {
   for (var postName in self.posts) {
     var post = self.posts[postName];
 
-    post.helpers = ko.observableArray(post.helpers ? post.helpers.map(function (helperPostName) {
+    post.id = 'ID_' + postName;
+    post.helpers = post.helpers ? post.helpers.map(function (helperPostName) {
       return self.posts[helperPostName];
-    }) : []);
-    post.underPosts = ko.observableArray(post.underPosts ? post.underPosts.map(function (underPostName) {
-      return self.posts[underPostName];
-    }) : []);
+    }) : [];
+    post.subPosts = post.subPosts ? post.subPosts.map(function (subPostName) {
+      return self.posts[subPostName];
+    }) : [];
     post.collapsed = ko.observable();
   }
 });
