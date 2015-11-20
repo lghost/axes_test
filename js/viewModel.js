@@ -5,7 +5,8 @@ ko.applyBindings(new function () {
     genDir: {
       name: 'General director',
       helpers: ko.observableArray(),
-      underPosts: ko.observableArray()
+      underPosts: ko.observableArray(),
+      collapsed: ko.observable()
     },
 
     genDirHelper: {
@@ -15,37 +16,43 @@ ko.applyBindings(new function () {
     employeeDir: {
       name: 'Employee director',
       helpers: ko.observableArray(),
-      underPosts: ko.observableArray()
+      underPosts: ko.observableArray(),
+      collapsed: ko.observable()
     },
 
     ITDir: {
       name: 'IT director',
       helpers: ko.observableArray(),
-      underPosts: ko.observableArray()
+      underPosts: ko.observableArray(),
+      collapsed: ko.observable()
     },
 
     Test1: {
       name: 'Test 1',
       helpers: ko.observableArray(),
-      underPosts: ko.observableArray()
+      underPosts: ko.observableArray(),
+      collapsed: ko.observable()
     },
 
     Test2: {
       name: 'Test 2',
       helpers: ko.observableArray(),
-      underPosts: ko.observableArray()
+      underPosts: ko.observableArray(),
+      collapsed: ko.observable()
     },
 
     Test3: {
       name: 'Test 3',
       helpers: ko.observableArray(),
-      underPosts: ko.observableArray()
+      underPosts: ko.observableArray(),
+      collapsed: ko.observable()
     },
 
     ITDirHelper: {
       name: 'IT director helper',
       helpers: ko.observableArray(),
-      underPosts: ko.observableArray()
+      underPosts: ko.observableArray(),
+      collapsed: ko.observable()
     }
   };
 
@@ -68,6 +75,10 @@ ko.applyBindings(new function () {
   ]);
 
   self.posts.ITDir.helpers([
+    self.posts.ITDirHelper
+  ]);
+
+  self.posts.Test3.helpers([
     self.posts.ITDirHelper
   ]);
 });

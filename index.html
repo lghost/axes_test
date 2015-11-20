@@ -16,19 +16,40 @@
     <div data-bind="template: { name: 'postTemplate', data: posts.genDir }"></div>
 
     <script type='text/html' id="postTemplate">
-      <div class="post">
-        <div data-bind="text: name"></div>
+      <table align="center">
+        <tr>
+          <td align="center" data-bind="attr: {colspan: underPosts().length || 1 },
+                                        click: function() { collapsed(!collapsed()); }">
+            <table>
+              <tr>
+                <td colspan="2">
+                  <div class="post" data-bind="text: name"></div>
+                </td>
+              </tr>
+              <!-- ko ifnot: collapsed -->
+                <!-- ko foreach: helpers -->
+                <tr>
+                  <td align="right">
+                    <div class="post helper" data-bind="text: name"></div>
+                  </td>
+                  <td align="left">
+                    <div class="post helper" data-bind="text: name"></div>
+                  </td>
+                </tr>
+                <!-- /ko -->
+              <!-- /ko -->
+            </table>
+          </td>
+        </tr>
 
-        <!-- ko if: helpers -->
-        <div data-bind="foreach: helpers">
-          <div data-bind="text: name"></div>
-        </div>
+        <!-- ko ifnot: collapsed -->
+          <!-- ko if: helpers -->
+          <tr data-bind="foreach: underPosts">
+            <td data-bind="template: { name: 'postTemplate', data: $data }"></td>
+          </tr>
+          <!-- /ko -->
         <!-- /ko -->
-
-        <!-- ko if: underPosts -->
-        <div data-bind="template: { name: 'postTemplate', foreach: underPosts }"></div>
-        <!-- /ko -->
-      </div>
+      </table>
     </script>
 
     <script type="text/javascript" src="js/struct.js"></script>
