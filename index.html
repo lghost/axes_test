@@ -5,42 +5,48 @@
     <title>График должностной структуры организации</title>
     <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="js/knockout-3.3.0.js"></script>
+    <script type="text/javascript" src="js/jquery.connections.js"></script>
     <link rel="stylesheet" href="css/style.css">
   </head>
 
   <body>
-    <div class="graph" data-bind="template: { name: 'postTemplate', data: posts.genDir }"></div>
+    <div data-bind="template: { name: 'postTemplate', data: posts.genDir }"></div>
 
     <script type='text/html' id="postTemplate">
-      <table align="center">
-        <tr>
-          <td align="center" data-bind="attr: { colspan: underPosts().length || 1 }">
-            <div class="post" data-bind="text: name, click: function() { collapsed(!collapsed()); }"></div>
-          </td>
-        </tr>
-
-        <!-- ko ifnot: collapsed -->
-          <!-- ko foreach: helpers -->
+      <table>
+        <tbody>
+          <!-- Main post div -->
           <tr>
-            <td align="center" data-bind="attr: { colspan: $parent.underPosts().length || 1 }">
-              <table>
-                <tr>
-                  <td class="helperCell"></td>
-                  <td class="helperCell">
-                    <div class="post helper" data-bind="text: name"></div>
-                  </td>
-                </tr>
-              </table>
+            <td style="text-align: center;" colspan="0">
+              <div class="post" data-bind="text: name, click: function() { collapsed(!collapsed()); }, attr: { id: id }"></div>
             </td>
           </tr>
-          <!-- /ko -->
 
-          <!-- ko if: underPosts -->
-          <tr data-bind="foreach: underPosts">
-            <td data-bind="template: { name: 'postTemplate', data: $data }"></td>
-          </tr>
+          <!-- ko ifnot: collapsed -->
+            <!---- Helpers list ---->
+            <!-- ko foreach: helpers -->
+            <tr>
+              <td colspan="0">
+                <table>
+                  <tr>
+                    <td style="width: 55%">
+                    <td style="width: 45%">
+                      <div class="post helper" data-bind="text: name, attr: { id: id }, connections: { parent: $parent, child: $data, class: 'connection helperConnection' }"></div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <!-- /ko -->
+
+            <!---- Subordinates list ---->
+            <!-- ko if: subPosts -->
+            <tr data-bind="foreach: subPosts">
+              <td data-bind="template: { name: 'postTemplate', data: $data }, connections: { parent: $parent, child: $data }"></td>
+            </tr>
+            <!-- /ko -->
           <!-- /ko -->
-        <!-- /ko -->
+        </tbody>
       </table>
     </script>
 
