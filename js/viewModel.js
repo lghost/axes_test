@@ -22,6 +22,30 @@ ko.applyBindings(new function () {
       name: 'IT director',
       helpers: ko.observableArray(),
       underPosts: ko.observableArray()
+    },
+
+    Test1: {
+      name: 'Test 1',
+      helpers: ko.observableArray(),
+      underPosts: ko.observableArray()
+    },
+
+    Test2: {
+      name: 'Test 2',
+      helpers: ko.observableArray(),
+      underPosts: ko.observableArray()
+    },
+
+    Test3: {
+      name: 'Test 3',
+      helpers: ko.observableArray(),
+      underPosts: ko.observableArray()
+    },
+
+    ITDirHelper: {
+      name: 'IT director helper',
+      helpers: ko.observableArray(),
+      underPosts: ko.observableArray()
     }
   };
 
@@ -34,4 +58,16 @@ ko.applyBindings(new function () {
     self.posts.ITDir
   ]);
 
+  self.posts.employeeDir.underPosts([
+    self.posts.Test1,
+    self.posts.Test2
+  ]);
+
+  self.posts.ITDir.underPosts([
+    self.posts.Test3
+  ]);
+
+  self.posts.ITDir.helpers([
+    self.posts.ITDirHelper
+  ]);
 });

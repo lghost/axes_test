@@ -1,7 +1,12 @@
-body: {
+body {
   text-align: center;
 }
 
-div.post: {
-  position: absolute;
+.post {
+  position: fixed;
+  /*background-color: Lightgray;*/
+  margin: 10px 5px;
+  border: 2px solid Gray;
+  border-radius: 10px;
+  padding: 5px 5px;
 }
