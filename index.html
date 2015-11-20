@@ -4,46 +4,38 @@
     <meta charset="utf-8">
     <title>График должностной структуры организации</title>
     <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-    <!-- <script type="text/javascript" src="js/bootstrap-3.3.5.min.js"></script> -->
     <script type="text/javascript" src="js/knockout-3.3.0.js"></script>
-    <!-- <script type="text/javascript" src="js/knockstrap-1.3.0.min.js"></script> -->
-    <!-- <link rel="stylesheet" href="/css/bootstrap-3.3.5.min.css"> -->
-    <!-- <link rel="stylesheet" href="/css/bootstrap-theme-3.3.5.min.css"> -->
     <link rel="stylesheet" href="css/style.css">
   </head>
 
   <body>
-    <div data-bind="template: { name: 'postTemplate', data: posts.genDir }"></div>
+    <div class="graph" data-bind="template: { name: 'postTemplate', data: posts.genDir }"></div>
 
     <script type='text/html' id="postTemplate">
       <table align="center">
         <tr>
-          <td align="center" data-bind="attr: {colspan: underPosts().length || 1 },
-                                        click: function() { collapsed(!collapsed()); }">
-            <table>
-              <tr>
-                <td colspan="2">
-                  <div class="post" data-bind="text: name"></div>
-                </td>
-              </tr>
-              <!-- ko ifnot: collapsed -->
-                <!-- ko foreach: helpers -->
-                <tr>
-                  <td align="right">
-                    <div class="post helper" data-bind="text: name"></div>
-                  </td>
-                  <td align="left">
-                    <div class="post helper" data-bind="text: name"></div>
-                  </td>
-                </tr>
-                <!-- /ko -->
-              <!-- /ko -->
-            </table>
+          <td align="center" data-bind="attr: { colspan: underPosts().length || 1 }">
+            <div class="post" data-bind="text: name, click: function() { collapsed(!collapsed()); }"></div>
           </td>
         </tr>
 
         <!-- ko ifnot: collapsed -->
-          <!-- ko if: helpers -->
+          <!-- ko foreach: helpers -->
+          <tr>
+            <td align="center" data-bind="attr: { colspan: $parent.underPosts().length || 1 }">
+              <table>
+                <tr>
+                  <td class="helperCell"></td>
+                  <td class="helperCell">
+                    <div class="post helper" data-bind="text: name"></div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- /ko -->
+
+          <!-- ko if: underPosts -->
           <tr data-bind="foreach: underPosts">
             <td data-bind="template: { name: 'postTemplate', data: $data }"></td>
           </tr>
@@ -52,7 +44,6 @@
       </table>
     </script>
 
-    <script type="text/javascript" src="js/struct.js"></script>
     <script type="text/javascript" src="js/viewModel.js"></script>
   </body>
 </html>

@@ -1,12 +1,12 @@
 ko.applyBindings(new function () {
   var self = this;
 
+  /* Simple posts sctructure */
   self.posts = {
     genDir: {
       name: 'General director',
-      helpers: ko.observableArray(),
-      underPosts: ko.observableArray(),
-      collapsed: ko.observable()
+      helpers: ['genDirHelper'],
+      underPosts: ['employeeDir', 'ITDir']
     },
 
     genDirHelper: {
@@ -15,70 +15,42 @@ ko.applyBindings(new function () {
 
     employeeDir: {
       name: 'Employee director',
-      helpers: ko.observableArray(),
-      underPosts: ko.observableArray(),
-      collapsed: ko.observable()
+      underPosts: ['Test1', 'Test2']
     },
 
     ITDir: {
       name: 'IT director',
-      helpers: ko.observableArray(),
-      underPosts: ko.observableArray(),
-      collapsed: ko.observable()
+      helpers: ['ITDirHelper'],
+      underPosts: ['Test3']
     },
 
     Test1: {
-      name: 'Test 1',
-      helpers: ko.observableArray(),
-      underPosts: ko.observableArray(),
-      collapsed: ko.observable()
+      name: 'Test 1'
     },
 
     Test2: {
-      name: 'Test 2',
-      helpers: ko.observableArray(),
-      underPosts: ko.observableArray(),
-      collapsed: ko.observable()
+      name: 'Test 2'
     },
 
     Test3: {
-      name: 'Test 3',
-      helpers: ko.observableArray(),
-      underPosts: ko.observableArray(),
-      collapsed: ko.observable()
+      name: 'Test 3'
     },
 
     ITDirHelper: {
-      name: 'IT director helper',
-      helpers: ko.observableArray(),
-      underPosts: ko.observableArray(),
-      collapsed: ko.observable()
+      name: 'Helper of IT director'
     }
   };
 
-  self.posts.genDir.helpers([
-    self.posts.genDirHelper
-  ]);
+  /* Data preparing */
+  for (var postName in self.posts) {
+    var post = self.posts[postName];
 
-  self.posts.genDir.underPosts([
-    self.posts.employeeDir,
-    self.posts.ITDir
-  ]);
-
-  self.posts.employeeDir.underPosts([
-    self.posts.Test1,
-    self.posts.Test2
-  ]);
-
-  self.posts.ITDir.underPosts([
-    self.posts.Test3
-  ]);
-
-  self.posts.ITDir.helpers([
-    self.posts.ITDirHelper
-  ]);
-
-  self.posts.Test3.helpers([
-    self.posts.ITDirHelper
-  ]);
+    post.helpers = ko.observableArray(post.helpers ? post.helpers.map(function (helperPostName) {
+      return self.posts[helperPostName];
+    }) : []);
+    post.underPosts = ko.observableArray(post.underPosts ? post.underPosts.map(function (underPostName) {
+      return self.posts[underPostName];
+    }) : []);
+    post.collapsed = ko.observable();
+  }
 });

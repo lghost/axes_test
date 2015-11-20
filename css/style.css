@@ -1,3 +1,7 @@
+.graph {
+  width: 50%;
+}
+
 .post {
   cursor: pointer;
   text-align: center;
@@ -14,13 +18,17 @@
   border: 1px solid Lightgray;
 }
 
+.helperCell {
+  width: 50%;
+}
+
 td {
   padding: 0;
   margin: 0;
   vertical-align: top;
-  border: 1px solid;
 }
 
 table {
+  width: 100%;
   border-collapse: collapse;
 }
